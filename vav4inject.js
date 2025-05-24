@@ -5,7 +5,7 @@ let replacements = {};
 let dumpedVarNames = {};
 const storeName = "a" + crypto.randomUUID().replaceAll("-", "").substring(16);
 const vapeName = crypto.randomUUID().replaceAll("-", "").substring(16);
-const VERSION = "1.1.2";
+const VERSION = "1.1.5";
 
 // ANTICHEAT HOOK
 function replaceAndCopyFunction(oldFunc, newFunc) {
@@ -1100,6 +1100,21 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 				if (callback) {
 					if (player) player.setGamemode(GameMode.fromId("survival"));
 					survival.toggle();
+				}
+			});
+
+			const creative = new Module("CreativeMode", function(callback) {
+				if (callback) {
+					if (player) player.setGamemode(GameMode.fromId("creative"));
+					creative.toggle();
+				}
+			});
+			
+
+			const spectator = new Module("SpectatorMode", function(callback) {
+				if (callback) {
+					if (player) player.setGamemode(GameMode.fromId("spectator"));
+					spectator.toggle();
 				}
 			});
 
