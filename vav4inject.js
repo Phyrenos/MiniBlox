@@ -262,6 +262,13 @@ function modifyCode(text) {
 		}
 	`);
 
+	addModification('ClientSocket.on("SPacketPlayerPosLook",h=>{', `
+		if(enabledModules["Disabler] && 1000 < Date.now()) {
+			h.s
+			ClientSocket.sendPacket(new SPacketPlayerPosLook({pos: {h.motion.x, h.motion.y, h.motion.z}, yaw: h.yaw, pitch: h.pitch, onGround: player.onGround}));
+			ClientSocket.sendPacket(new SPacketPlayerPosLook({pos: {player.motion.x, player.motion.y, player.motion.z}, yaw: player.yaw, pitch: player.pitch, onGround: player.onGround}));
+		}
+	`);
 	// REBIND
 	addModification('bindKeysWithDefaults("b",m=>{', 'bindKeysWithDefaults("semicolon",m=>{', true);
 	addModification('bindKeysWithDefaults("i",m=>{', 'bindKeysWithDefaults("apostrophe",m=>{', true);
@@ -557,6 +564,15 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 			velocityvert = velocity.addoption("Vertical", Number, 0);
 
 			// NoFall
+
+			new Module("Disabler", function(callback) {
+				if(callback){
+					tickLoop["Disabler"] = function() {
+
+					}
+				}
+			});
+
 			new Module("NoFall", function(callback) {
 				if (callback) {
 					let ticks = 0;
@@ -790,17 +806,8 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 				if (callback) {
 					let ticks = 0;
 					tickLoop["InfiniteFly"] = function() {
-						const h = {};
-						player.abilities.flying = true; 
-						player.serverFlyState = true; 
-						player.isCollidedVertically = true;
-						player.isCollidedHorizontally = true;
-						player.inWater = true;
-						h.isFlying = true;
-						ClientSocket.sendPacket(new SPacketPlayerAbilities(h));
-						player.onGround = true;
-						player.ridingEntity = true;
-						player.isAirBorne = false;
+						
+						
 						ticks++;
 						const dir = getMoveDirection(0.2);
 						player.motion.x = dir.x;
