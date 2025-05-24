@@ -786,14 +786,18 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 			// InfiniteFly
 			let infiniteFlyVert;
 			const infiniteFly = new Module("InfiniteFly", function(callback) {
-			player.serverFlyState = true;
-			player.abilities.flying = true;
-			ClientSocket.sendPacket(new SPacketPlayerAbilities({
-				isFlying: true
-			}))
+			
 				if (callback) {
 					let ticks = 0;
 					tickLoop["InfiniteFly"] = function() {
+						const h = {};
+						player.abilities.flying = true; 
+						player.serverFlyState = true; 
+						player.isCollidedVertically = true;
+						player.isCollidedHorizontally = true;
+						player.inWater = true;
+						h.isFlying = true;
+						ClientSocket.sendPacket(new SPacketPlayerAbilities(h));
 						player.onGround = true;
 						ticks++;
 						const dir = getMoveDirection(0.2);
