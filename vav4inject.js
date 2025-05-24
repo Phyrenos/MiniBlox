@@ -264,7 +264,6 @@ function modifyCode(text) {
 
 	addModification('ClientSocket.on("SPacketPlayerPosLook",h=>{', `
 		if(enabledModules["Disabler] && 1000 < Date.now()) {
-			h.s
 			ClientSocket.sendPacket(new SPacketPlayerPosLook({pos: {h.motion.x, h.motion.y, h.motion.z}, yaw: h.yaw, pitch: h.pitch, onGround: player.onGround}));
 			ClientSocket.sendPacket(new SPacketPlayerPosLook({pos: {player.motion.x, player.motion.y, player.motion.z}, yaw: player.yaw, pitch: player.pitch, onGround: player.onGround}));
 		}
@@ -565,12 +564,7 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 
 			// NoFall
 
-			new Module("Disabler", function(callback) {
-				if(callback){
-					tickLoop["Disabler"] = function() {
-
-					}
-				}
+			new Module("Disabler", function() {
 			});
 
 			new Module("NoFall", function(callback) {
@@ -807,7 +801,7 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 					let ticks = 0;
 					tickLoop["InfiniteFly"] = function() {
 						
-						
+						player.entity.setGamemode(GameMode.fromId(p.gamemode ?? "creative"))
 						ticks++;
 						const dir = getMoveDirection(0.2);
 						player.motion.x = dir.x;
@@ -1097,6 +1091,7 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 			new Module("AutoRejoin", function() {});
 			new Module("AutoQueue", function() {});
 			new Module("AutoVote", function() {});
+			new Module("Disabler", function() {});
 			const chatdisabler = new Module("ChatDisabler", function() {});
 			chatdisablermsg = chatdisabler.addoption("Message", String, "youtube.com/c/7GrandDadVape");
 			new Module("FilterBypass", function() {});
