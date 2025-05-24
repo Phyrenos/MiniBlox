@@ -799,6 +799,8 @@ h.addVelocity(-Math.sin(this.yaw) * g * .5, .1, -Math.cos(this.yaw) * g * .5);
 						h.isFlying = true;
 						ClientSocket.sendPacket(new SPacketPlayerAbilities(h));
 						player.onGround = true;
+						player.ridingEntity = true;
+						player.isAirBorne = false;
 						ticks++;
 						const dir = getMoveDirection(0.2);
 						player.motion.x = dir.x;
