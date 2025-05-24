@@ -5,7 +5,7 @@ let replacements = {};
 let dumpedVarNames = {};
 const storeName = "a" + crypto.randomUUID().replaceAll("-", "").substring(16);
 const vapeName = crypto.randomUUID().replaceAll("-", "").substring(16);
-const VERSION = "1.1.5";
+const VERSION = "1.23034.3";
 
 // ANTICHEAT HOOK
 function replaceAndCopyFunction(oldFunc, newFunc) {
@@ -263,9 +263,12 @@ function modifyCode(text) {
 	`);
 
 	addModification('ClientSocket.on("SPacketPlayerPosLook",h=>{', `
-		if(enabledModules["Disabler] && 1000 < Date.now()) {
+		if(enabledModules["Disabler]) {
 			ClientSocket.sendPacket(new SPacketPlayerPosLook({pos: {h.motion.x, h.motion.y, h.motion.z}, yaw: h.yaw, pitch: h.pitch, onGround: player.onGround}));
 			ClientSocket.sendPacket(new SPacketPlayerPosLook({pos: {player.motion.x, player.motion.y, player.motion.z}, yaw: player.yaw, pitch: player.pitch, onGround: player.onGround}));
+			ClientSocket.sendPacket(new SPacketPing({
+				time: 100000000
+			}))
 		}
 	`);
 	// REBIND
